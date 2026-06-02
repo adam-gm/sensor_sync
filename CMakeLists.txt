@@ -39,8 +39,13 @@ include_directories(
 ## Declare C++ executable
 add_executable(realsense_synch_node src/realsense_synch.cpp)
 add_executable(realsense_custom_config src/realsense_custom_config.cpp)
+add_executable(ouster_synch_node src/ouster_synch.cpp)
 ## Specify link libraries for the executable
 target_link_libraries(realsense_synch_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(ouster_synch_node
   ${catkin_LIBRARIES}
 )
 

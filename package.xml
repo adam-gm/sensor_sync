@@ -4,11 +4,11 @@
   <version>0.0.0</version>
   <description>
 
-	bundle intel realsense d455 data with sentisystems timestamp
+	bundle intel realsense d455 and ouster lidar data with sentisystems timestamp
 
   </description>
   <url></url>
-  <author>bloeschm</author>
+  <author>adam</author>
   <maintainer email="adamgodtland01@gmail.com">adamgm</maintainer>
   <license>BSD</license>
   <buildtool_depend>catkin</buildtool_depend>
