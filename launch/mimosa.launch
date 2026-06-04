@@ -1,0 +1,19 @@
+<launch>
+  <node pkg="tf" type="static_transform_publisher" name="tf000" args="0 0 0 0 0 0 mimosa_world world 10" />
+  <node pkg="tf" type="static_transform_publisher" name="tf_imu_imu_inv" args="0 0 0 3.14 0 0 mimosa_imu mimosa_imu_inv 10" />
+
+  <node pkg="mimosa" type="mimosa_node" name="mimosa_node" output="screen" clear_params="true" > # launch-prefix="taskset -c 0-3"
+    <!-- New Data. You probably want this unless you are using old rosbags -->
+    <remap from="/mimosa_node/imu/manager/imu_in" to="/senti/senti/imu" />
+    <remap from="/mimosa_node/lidar/manager/lidar_in" to="/synched/ouster/points" />
+    <rosparam file="$(find robot_bringup)/config/ros1/os_dummy.json" command="load" ns="lidar/sensor"/>
+    <remap from="/mimosa_node/radar/manager/radar_in" to="/radar/cloud" />
+    <remap from="mimosa_node/odometry/manager/odometry_in" to="/synched/rovio/odometry"/>
+
+    <rosparam file="$(find robot_bringup)/config/ros1/mimosa.yaml"/>
+  </node>
+
+  <arg name="viz" default="false" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mimosa)/rviz/mimosa.rviz" if="$(arg viz)" />
+
+</launch>

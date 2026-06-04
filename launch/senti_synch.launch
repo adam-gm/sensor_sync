@@ -1,0 +1,30 @@
+<launch>
+
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+    <arg name="enable_infra" value="false"/>
+    <arg name="enable_infra1" value="true"/>
+    <arg name="enable_infra2" value="true"/>
+    <arg name="infra_fps" value="30"/>
+    <arg name="enable_accel" value="true"/>
+    <arg name="enable_gyro" value="true"/>
+    <arg name="unite_imu_method" value="linear_interpolation"/>
+    <!--<arg name="depth_module.output_trigger_enabled " default="true"/>
+    <arg name="inter_cam_sync_mode" value="1"/>
+    -->
+  </include>
+
+  <node pkg="senti_sensor_synch" 
+        type="realsense_synch_node" 
+        name="realsense_synch_node"
+        output="screen">
+   
+  </node>
+
+  <node pkg="senti_sensor_synch" 
+        type="ouster_synch_node" 
+        name="ouster_synch_node"
+        output="screen">
+   
+  </node>
+    
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+  <group ns="senti">
+    <node name="utils2ros" pkg="senti_com" type="utils2ros" respawn="true" output="screen" />
+  </group>
+</launch>
