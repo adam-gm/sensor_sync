@@ -8,7 +8,9 @@ using namespace realsense_synch;
 int main(int argc, char **argv){
     ros::init(argc, argv,"realsense_synch_node");
     ros::NodeHandle n;
-    RealsenseSynch senti_realsense_node(n);
+
+    ros::NodeHandle pnh("~");
+    RealsenseSynch senti_realsense_node(n,pnh);
     
 
 

@@ -12,16 +12,37 @@ namespace realsense_synch
     {
 
     public:
-        RealsenseSynch(ros::NodeHandle &n) : imageSync(left_sub, right_sub, 30)
+        RealsenseSynch(ros::NodeHandle &n, ros::NodeHandle& pnh) : imageSync(left_sub, right_sub, 30)
         {
-            left_sub.subscribe(n, "/camera/infra1/image_rect_raw", 30);
-            right_sub.subscribe(n, "/camera/infra2/image_rect_raw", 30);
+            std::string left_topic;
+            std::string right_topic;
+            std::string ic_topic;
+            std::string left_output_topic;
+            std::string right_output_topic;
+
+            pnh.param<std::string>("left_topic", left_topic,
+                           "/camera/infra1/image_rect_raw");
+
+            pnh.param<std::string>("right_topic", right_topic,
+                           "/camera/infra2/image_rect_raw");
+
+            pnh.param<std::string>("ic_topic", ic_topic,
+                           "/senti/senti/ic");
+
+            pnh.param<std::string>("left_output_topic", left_output_topic,
+                           "synched/infra1/img_rect_raw");
+
+            pnh.param<std::string>("right_output_topic", right_output_topic,
+                           "synched/infra2/img_rect_raw");
+
+            left_sub.subscribe(n, left_topic, 30);
+            right_sub.subscribe(n, right_topic, 30);
             imageSync.registerCallback(boost::bind(&RealsenseSynch::stereoImageCallback, this, _1, _2));
-            sub_senti = n.subscribe("/senti/senti/ic", 100, &RealsenseSynch::sentiSynchImageCallback, this);
+            sub_senti = n.subscribe(ic_topic, 100, &RealsenseSynch::sentiSynchImageCallback, this);
 
             // Publishers
-            left_synch_pub = n.advertise<sensor_msgs::Image>("synched/infra1/img_rect_raw",30);
-            right_synch_pub = n.advertise<sensor_msgs::Image>("synched/infra2/img_rect_raw",30);
+            left_synch_pub = n.advertise<sensor_msgs::Image>(left_output_topic,30);
+            right_synch_pub = n.advertise<sensor_msgs::Image>(right_output_topic,30);
         }   
 
 
