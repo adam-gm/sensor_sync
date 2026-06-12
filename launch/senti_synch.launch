@@ -5,8 +5,9 @@
     <arg name="enable_infra1" value="true"/>
     <arg name="enable_infra2" value="true"/>
     <arg name="infra_fps" value="30"/>
-    <arg name="serial_no" value="serialnr_1"/>
-    <arg name="camera" value="camera1"/>
+    <arg name="serial_no" value=""/>
+    <arg name="camera" value="camera"/>
+    <arg name="enable_depth" value="false"/>
     <!--<arg name="enable_accel" value="true"/>
     <arg name="enable_gyro" value="true"/>
     <arg name="unite_imu_method" value="linear_interpolation"/>
@@ -20,8 +21,9 @@
     <arg name="enable_infra1" value="true"/>
     <arg name="enable_infra2" value="true"/>
     <arg name="infra_fps" value="30"/>
-    <arg name="serial_no" value="serialnr_2"/>
+    <arg name="serial_no" value="default"/>
     <arg name="camera" value="camera2"/>
+    <arg name="enable_depth" value="false"/>
     <!--<arg name="enable_accel" value="true"/>
     <arg name="enable_gyro" value="true"/>
     <arg name="unite_imu_method" value="linear_interpolation"/>
@@ -37,7 +39,7 @@
 
         <param name="left_topic" value="/camera1/infra1/image_rect_raw"/>
         <param name="right_topic" value="/camera1/infra2/image_rect_raw"/>
-        <param name="ic_topic" value="/senti/senti/ic_camera1"/>
+        <param name="ic_topic" value="/senti/senti/camera/ic"/>
         <param name="left_output_topic" value="/synched/camera1/infra1/img_rect_raw"/>
         <param name="right_output_topic" value="/synched/camera1/infra2/img_rect_raw"/>
 

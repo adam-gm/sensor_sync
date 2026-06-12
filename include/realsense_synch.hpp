@@ -72,7 +72,7 @@ namespace realsense_synch
 
         void sentiSynchImageCallback(const std_msgs::Header::ConstPtr &msg)
         {
-            ROS_INFO("Sentiboard img timestamp in seconds: %f", msg->stamp.toSec());
+            //ROS_INFO("Sentiboard img timestamp in seconds: %f", msg->stamp.toSec());
             senti_stamp = msg->stamp;
         }
     };

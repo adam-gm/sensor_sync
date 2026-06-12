@@ -40,6 +40,7 @@ include_directories(
 add_executable(realsense_synch_node src/realsense_synch.cpp)
 add_executable(realsense_custom_config src/realsense_custom_config.cpp)
 add_executable(ouster_synch_node src/ouster_synch.cpp)
+add_executable(timestamp_node src/timestamp_logger.cpp)
 ## Specify link libraries for the executable
 target_link_libraries(realsense_synch_node
   ${catkin_LIBRARIES}
@@ -53,6 +54,9 @@ target_link_libraries(realsense_custom_config
   ${realsense2_LIBRARY}
 )
 
+target_link_libraries(timestamp_node
+  ${catkin_LIBRARIES}
+)
 ## Installation (for make install)
 install(TARGETS realsense_synch_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
