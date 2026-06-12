@@ -61,12 +61,12 @@ namespace ouster_synch
             if(pointcloudList.size()>0)
             {
                 copiedPointCloud = pointcloudList.front();
-                copiedPointCloud = pointcloudList.pop_front();
-                if((rosTime - copiedPointCloud.header.stamp.toSec()) < 0.05)
+                pointcloudList.pop_front();
+                if((rosTime - copiedPointCloud.header.stamp.toSec()) < 0.04)
                 {
                     copiedPointCloud.header.stamp = timestampList.front();
                     timestampList.pop_front();
-                    ROS_INFO_STREAM("Successfully gave a late sentiboard timestamp to a earlier received lidar pointcloud");
+                    ROS_INFO_STREAM("Successfully gave a delayed sentiboard timestamp to an earlier received lidar pointcloud");
                     updatedPointCloud.publish(copiedPointCloud);
                     
                 }
