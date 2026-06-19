@@ -27,6 +27,16 @@ int main()
                 std::cout << sensor.get_info(RS2_CAMERA_INFO_NAME);
             }
 
+            if (sensor.supports(RS2_OPTION_EMITTER_ENABLED))
+            {
+                sensor.set_option(RS2_OPTION_EMITTER_ENABLED, 0.f);
+
+                std::cout
+                << "Emitter enabled set to: "
+                << sensor.get_option(RS2_OPTION_EMITTER_ENABLED)
+                << "\n";
+            }
+
             std::cout << std::endl;
 
             if (sensor.supports(RS2_OPTION_INTER_CAM_SYNC_MODE))
