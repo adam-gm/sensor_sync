@@ -3,15 +3,15 @@
   <arg name="ouster_ns" default="ouster" doc="Override the default namespace of all ouster nodes"/>
   <arg name="sensor_hostname" default="192.168.42.67" doc="hostname or IP in dotted decimal form of the sensor"/>
   <arg name="udp_dest" default="192.168.42.50" doc="hostname or IP where the sensor will send data packets"/>
-  <arg name="lidar_port" default="0" doc="port to which the sensor should send lidar data"/>
-  <arg name="imu_port" default="0" doc="port to which the sensor should send imu data"/>
+  <arg name="lidar_port" default="7502" doc="port to which the sensor should send lidar data"/>
+  <arg name="imu_port" default="7503" doc="port to which the sensor should send imu data"/>
   <!-- The following profiles are only available with FW3.2:
     RNG15_RFL8_NIR8_DUAL
     RNG15_RFL8_WIN8,
     RNG15_RFL8_NIR8_ZONE16,
     RNG19_RFL8_SIG16_NIR16_ZONE16
    -->
-  <arg name="udp_profile_lidar" default=" "
+  <arg name="udp_profile_lidar" default="LEGACY"
     doc="lidar packet profile; possible values: {
     LEGACY,
     RNG19_RFL8_SIG16_NIR16,
@@ -44,7 +44,7 @@
     NORMAL,
     EXTENDED
     }"/>
-  <arg name="lidar_mode" default=" "
+  <arg name="lidar_mode" default="2048x10"
     doc="resolution and rate; possible values: {
     512x10,
     512x20,
@@ -53,7 +53,7 @@
     2048x10,
     4096x5
     }"/>
-  <arg name="timestamp_mode" default=" "
+  <arg name="timestamp_mode" default="TIME_FROM_ROS_TIME"
     doc="method used to timestamp measurements; possible values: {
     TIME_FROM_INTERNAL_OSC,
     TIME_FROM_SYNC_PULSE_IN,
@@ -100,7 +100,7 @@
         ACTIVE_LOW
     }"/>
 
-  <arg name="sync_pulse_out_polarity" default="ACTIVE_LOW"
+  <arg name="sync_pulse_out_polarity" default="ACTIVE_HIGH"
     doc="Polarity of SYNC_PULSE_OUT when this sensor is the time-sync master;
       possible values: {
         ACTIVE_HIGH,
@@ -111,12 +111,12 @@
     doc="The output SYNC_PULSE_OUT pulse rate in Hz. Valid inputs are integers >0 Hz,
     but also limited by the criteria described in the Time Synchronization section of the Firmware User Manual."/>
 
-  <arg name="sync_pulse_out_angle" default="360"
+  <arg name="sync_pulse_out_angle" default="0"
     doc="The angle in terms of degrees that the sensor traverses between each SYNC_PULSE_OUT pulse. 
       E.g. a value of 180 means a sync pulse is sent out every 180° for a total of two pulses per revolution and angular frequency of 20 Hz;
       values range [0, 360], -1 is unset"/>
 
-  <arg name="sync_pulse_out_pulse_width" default="-1"
+  <arg name="sync_pulse_out_pulse_width" default="10"
     doc="The polarity of SYNC_PULSE_OUT output, if the sensor is set as the master sensor used for time synchronization.
       Output SYNC_PULSE_OUT pulse width is in ms, increments in 1 ms. -1 is unset"/>
 
@@ -133,7 +133,7 @@
     doc="sets name of choice for the os_lidar tf frame, value can not be empty"/>
   <arg name="imu_frame" default="os_imu"
     doc="sets name of choice for the os_imu tf frame, value can not be empty"/>
-  <arg name="point_cloud_frame" default=" "
+  <arg name="point_cloud_frame" default="os_sensor"
     doc="which frame to be used when publishing PointCloud2 or LaserScan messages.
     Choose between the value of sensor_frame or lidar_frame, leaving this value empty
     would set lidar_frame to be the frame used when publishing these messages."/>
@@ -222,14 +222,15 @@
     doc="maximum number of attempts trying to communicate with the sensor.
          Counter resets upon successful connection"/>
 
-  <arg name="organized" default="true"
+  <arg name="organized" default="false"
     doc="generate an organzied point cloud"/>
-  <arg name="destagger" default="true"
-    doc="enable or disable point cloud destaggering"/>
+  <arg name="destagger" default="false"
+    doc="byttet fra true til false (for destagger og organized). false: raw pointcloud publiseres
+        enable or disable point cloud destaggering"/>
 
-  <arg name="min_range" default="0.0"
+  <arg name="min_range" default="0.8"
     doc="minimum lidar range to consider (meters)"/>
-  <arg name="max_range" default="10000.0"
+  <arg name="max_range" default="30.0"
     doc="maximum lidar range to consider (meters)"/>
 
   <arg name="min_scan_valid_columns_ratio" default="0.0"
@@ -310,7 +311,7 @@
     </node>
   </group>
 
-  <node if="$(arg viz)" pkg="rviz" name="rviz" type="rviz"
+  <node if="$(arg viz)" pkg="rviz" name="rviz_ouster" type="rviz"
     output="screen" required="false" launch-prefix="bash -c 'sleep 5; $0 $@' "
     args="-d $(arg rviz_config)"/>
 
