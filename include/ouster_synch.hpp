@@ -2,7 +2,7 @@
 #include <sensor_msgs/PointCloud2.h>
 #include <deque>
 #include <std_msgs/Header.h>
-
+#include <cstdint>
 namespace ouster_synch
 {
 
@@ -20,13 +20,22 @@ namespace ouster_synch
         ros::Subscriber senti_lidar_ic;
         ros::Publisher updatedPointCloud;
 
-        std::deque<ros::Time> timestampList;
+        //std::deque<ros::Time> timestampList;
+        
         std::deque<sensor_msgs::PointCloud2> pointcloudList;
+
+        struct SentiTime{
+            ros::Time stamp;
+            std::uint32_t seq;
+        };
+
+        std::deque<SentiTime> timestampList;
 
         ros::Time rosTime;
         ros::Time rosTimeOuster;
         sensor_msgs::PointCloud2 copiedPointCloud;
 
+        
         void lidarSynchCallback(const sensor_msgs::PointCloud2ConstPtr &pointCloud)
         {
             rosTimeOuster = ros::Time::now();
@@ -34,7 +43,8 @@ namespace ouster_synch
             if(!timestampList.empty())
             {
                 copiedPointCloud = *pointCloud;
-                copiedPointCloud.header.stamp = timestampList.front();
+                copiedPointCloud.header.stamp = timestampList.front().stamp;
+                copiedPointCloud.header.seq = timestampList.front().seq;
                 timestampList.pop_front();
                 updatedPointCloud.publish(copiedPointCloud);
             }
@@ -78,7 +88,7 @@ namespace ouster_synch
 
             else
             {
-                timestampList.push_back(msg->stamp);
+                timestampList.push_back({msg->stamp, msg->seq});
                 while(timestampList.size() > 20)
                 {
                     timestampList.pop_front();
