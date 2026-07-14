@@ -3,7 +3,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import math
 
-bagpath = Path("3_lidar_imu_lidarframe_outangle0.bag")
+bagpath = Path("nyestelidar_logikk_13juli_runde2.bag")
 imu_topic = "/senti/senti/imu"   # endre til riktig topic
 
 t = []
@@ -55,3 +55,9 @@ plt.ylabel("angular velocity [rad/s]")
 plt.legend()
 plt.grid()
 plt.show()
+
+#start 18
+#ny os_driver synch. (1,2,3) bruker synch lidar points: LI init test run 1,2: cut_frame_num: 15, online refinement tid: 30
+# LI init test run 3: cut frame num: 3, online refinement tid: 15
+
+#ny os_driver synch kode. (1,2) bruker raw(ikke synch) lidar points: LI init test run 1,2: cut_frame_num: 15, online refinement tid: 30

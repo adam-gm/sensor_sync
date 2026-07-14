@@ -39,6 +39,14 @@ int main()
 
             std::cout << std::endl;
 
+            if (sensor.supports(RS2_OPTION_LASER_POWER))
+            {
+            sensor.set_option(RS2_OPTION_LASER_POWER, 0.f);
+            std::cout << "Laser power set to: "
+              << sensor.get_option(RS2_OPTION_LASER_POWER)
+              << "\n";
+            }
+            
             if (sensor.supports(RS2_OPTION_INTER_CAM_SYNC_MODE))
             {
                 sensor.set_option(RS2_OPTION_INTER_CAM_SYNC_MODE, 1.f);
